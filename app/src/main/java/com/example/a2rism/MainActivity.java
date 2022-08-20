@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -80,12 +81,13 @@ public class MainActivity extends AppCompatActivity {
                                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                         DatabaseReference ref = database.getReference();
 
-                                        ref.child("Users").child(firebaseAuth.getUid()).child("type");
+                                        ref.child("Users").child(firebaseAuth.getCurrentUser().getUid());
 
                                         ref.addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                String type = snapshot.getValue(String.class);
+                                                //String type = snapshot.getValue(String.class);
+                                                /*String type = snapshot.getValue(String.class);
                                                 if(type.equals("Provider")){
                                                     Intent intent = new Intent(MainActivity.this, MainProviderActivity.class);
                                                     startActivity(intent);
@@ -93,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
                                                 else{
                                                     Intent intent = new Intent(MainActivity.this, MainClientActivity.class);
                                                     startActivity(intent);
-                                                }
+                                                }*/
+                                                Log.d("type","Value"+ snapshot.getValue());
 
                                             }
 
