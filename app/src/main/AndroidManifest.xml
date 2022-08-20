@@ -14,10 +14,10 @@
         android:theme="@style/Theme.2rism"
         tools:targetApi="31">
         <activity
-            android:name=".MainClientActivity"
+            android:name=".Activities.MainClientActivity"
             android:exported="false" />
         <activity
-            android:name=".MainProviderActivity"
+            android:name=".Activities.MainProviderActivity"
             android:exported="false" />
         <activity
             android:name=".Sign_in"

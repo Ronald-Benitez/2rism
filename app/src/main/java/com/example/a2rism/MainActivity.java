@@ -78,25 +78,22 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                        DatabaseReference ref = database.getReference();
-
-                                        ref.child("Users").child(firebaseAuth.getCurrentUser().getUid());
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.getUid());
 
                                         ref.addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                //String type = snapshot.getValue(String.class);
-                                                /*String type = snapshot.getValue(String.class);
-                                                if(type.equals("Provider")){
+                                                String type = snapshot.child("type").getValue().toString();
+                                                if(type.equals("Provider")) {
                                                     Intent intent = new Intent(MainActivity.this, MainProviderActivity.class);
                                                     startActivity(intent);
                                                 }
-                                                else{
+                                                else {
                                                     Intent intent = new Intent(MainActivity.this, MainClientActivity.class);
                                                     startActivity(intent);
-                                                }*/
-                                                Log.d("type","Value"+ snapshot.getValue());
+
+                                                }
+                                                finish();
 
                                             }
 
