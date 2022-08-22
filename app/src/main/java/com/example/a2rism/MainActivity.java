@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -78,22 +77,26 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.getUid());
 
-                                        ref.addValueEventListener(new ValueEventListener() {
+                                        String uid = task.getResult().getUser().getUid();
+
+                                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                        //DatabaseReference ref = database.getReference();
+
+                                        //Getting user UID and type
+                                        database.getReference().child("Users").child(uid).child("type").addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                String type = snapshot.child("type").getValue().toString();
-                                                if(type.equals("Provider")) {
+                                                String type = (String) snapshot.getValue();
+                                                if (type.equals("Provider")){
                                                     Intent intent = new Intent(MainActivity.this, MainProviderActivity.class);
                                                     startActivity(intent);
                                                 }
-                                                else {
-                                                    Intent intent = new Intent(MainActivity.this, MainClientActivity.class);
+                                                else
+                                                {
+                                                    Intent intent=new Intent(MainActivity.this, MainClientActivity.class);
                                                     startActivity(intent);
-
                                                 }
-                                                finish();
 
                                             }
 
@@ -102,6 +105,29 @@ public class MainActivity extends AppCompatActivity {
 
                                             }
                                         });
+
+                                        //ref.child("Users").child(firebaseAuth.getUid()).child("type");
+
+                                        /*ref.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String type = snapshot.getValue(String.class);
+                                                if(type.equals("Provider")){
+                                                    Intent intent = new Intent(MainActivity.this, MainProviderActivity.class);
+                                                    startActivity(intent);
+                                                }
+                                                else{
+                                                    Intent intent = new Intent(MainActivity.this, MainClientActivity.class);
+                                                    startActivity(intent);
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });*/
 
 
                                     } else {
